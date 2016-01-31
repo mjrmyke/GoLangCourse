@@ -1,0 +1,46 @@
+html {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #0D31E8;
+}
+
+body {
+    width: 600px;
+    margin: 0 auto;
+    background-color: #1BA8FF;
+    padding: 0 20px 20px 20px;
+    border: 5px solid black;
+    line-height: 120%;
+}
+
+img {
+    display: block;
+    margin: 30px auto;
+    border-radius: 100%;
+    border: 20px outset #23FF80;
+}
+
+h1 {
+    font-size: 24px;
+    margin-top: 30px;
+}
+
+p {
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+#element1 {
+    color: #580FFF;
+}
+
+#element2 {
+    color: #580FFF;
+}
+
+#element3 {
+    color: #580FFF;
+}
+
+#element4 {
+    color: #580FFF;
+}

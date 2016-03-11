@@ -39,9 +39,9 @@ func home(res http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	if req.FormValue("email") != "" {
-		email := req.FormValue("email")
-		cook.Value = email + `|` + makehmac(email)
+	if req.FormValue("formtext") != "" {
+		formtext := req.FormValue("formtext")
+		cook.Value = formtext + `|` + makehmac(formtext)
 	}
 
 	http.SetCookie(res, cook)
@@ -50,7 +50,7 @@ func home(res http.ResponseWriter, req *http.Request) {
   	  <body>
   	    <form method="POST">
   	    `+cook.Value+`
-  	      <input type="text" name="email">
+  	      <input type="text" name="formtext">
   	      <input type="submit">
   	    </form>
   	    <a href="/authenticate">Validate This HMAC</a>
@@ -72,15 +72,15 @@ func authenticate(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	xs := strings.Split(cookie.Value, "|")
-	fmt.Println("HERE'S THE SLICE", xs)
-	email := xs[0]
-	codeRcvd := xs[1]
-	codeCheck := makehmac(email)
-	//codeCheck := makehmac(email + "s")
+	data := strings.Split(cookie.Value, "|")
+	formtext := data[0]
+	codeRcvd := data[1]
+	codeCheck := makehmac(formtext)
+	//codeCheck := makehmac(formtext + "s")
+	//if uncommented, this line will invalidate the HMAC
 
 	if codeRcvd != codeCheck {
-		log.Println("HMAC codes didn't match")
+		log.Println("Invalidated HMAC CODE - ACCESS DENIED!!")
 		log.Println(codeRcvd)
 		log.Println(codeCheck)
 		http.Redirect(res, req, "/", 303)
@@ -90,8 +90,8 @@ func authenticate(res http.ResponseWriter, req *http.Request) {
 	io.WriteString(res, `<!DOCTYPE html>
 	<html>
 	  <body>
-	  	<h1>`+codeRcvd+` - RECEIVED </h1>
-	  	<h1>`+codeCheck+` - RECALCULATED </h1>
+	  	<h1>`+codeRcvd+` - USER COOKIE CODE </h1>
+	  	<h1>`+codeCheck+` - EXPECTED COOKIE CODE </h1>
 	  </body>
 	</html>`)
 }

@@ -7,7 +7,6 @@ import (
 	"github.com/nu7hatch/gouuid"
 	"log"
 	"net/http"
-	// "os"
 	"text/template"
 )
 
@@ -42,7 +41,7 @@ func foo(res http.ResponseWriter, req *http.Request) {
 	//get data from form
 	useroni.FName = req.FormValue("FName")
 	useroni.LName = req.FormValue("LName")
-	useroni.Age = req.FormValue("age")
+	useroni.Age = req.FormValue("Age")
 	useroni.uuid = id
 
 	//encode data to json

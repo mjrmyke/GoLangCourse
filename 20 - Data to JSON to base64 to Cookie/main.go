@@ -1,18 +1,21 @@
 package main
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"github.com/nu7hatch/gouuid"
 	"log"
 	"net/http"
-	"os"
+	// "os"
 	"text/template"
 )
 
 type User struct {
 	FName string
 	LName string
-	age   string
+	Age   string
+	uuid  *uuid.UUID
 }
 
 func main() {
@@ -31,22 +34,30 @@ func foo(res http.ResponseWriter, req *http.Request) {
 		log.Fatalln(error)
 	}
 
-	error = templ.Execute(os.Stdout, nil)
+	//make uuid
+	id, _ := uuid.NewV4()
+
+	cookie, err := req.Cookie("session-fino")
+
+	//get data from form
+	useroni.FName = req.FormValue("FName")
+	useroni.LName = req.FormValue("LName")
+	useroni.Age = req.FormValue("age")
+	useroni.uuid = id
+
+	//encode data to json
+	data, error := json.Marshal(useroni)
 	if error != nil {
 		log.Fatalln(error)
 	}
 
-	cookie, err := req.Cookie("session-fino")
-
-	useroni.FName = req.FormValue("FName")
-	useroni.LName = req.FormValue("LName")
-	useroni.age = req.FormValue("age")
+	//json data to base64
+	b64 := base64.URLEncoding.EncodeToString(data)
 
 	if err != nil {
-		id, _ := uuid.NewV4()
 		cookie = &http.Cookie{
 			Name:  "session-fino",
-			Value: id.String() + "_" + useroni.FName + "_" + useroni.LName,
+			Value: b64,
 			// Secure: true,
 			HttpOnly: true,
 		}

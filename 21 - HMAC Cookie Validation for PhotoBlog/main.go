@@ -101,7 +101,7 @@ func foo(res http.ResponseWriter, req *http.Request) {
 		rcvdlname := splitstrings[1]
 		rcvdage := splitstrings[2]
 		rcvdid := splitstrings[3]
-		codeCheck := makehmac(rcvdid)
+		codeCheck := makehmac(id.String())
 
 		if codeCheck != rcvdid {
 			log.Println("MISMATCHED UUID HMAC")

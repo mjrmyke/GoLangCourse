@@ -37,13 +37,9 @@ func makehmac(data string) string {
 	return fmt.Sprintf("%x", x.Sum(nil))
 }
 
-// func existingcookie(){
-//
-// }
-
 func bar(res http.ResponseWriter, req *http.Request) {
 
-	templ2, error := template.ParseFiles("tpl.gohtml") // Parse template file
+	templ2, error := template.ParseFiles("tpl2.gohtml") // Parse template file
 	if error != nil {
 		log.Fatalln(error)
 	}
@@ -61,8 +57,6 @@ func foo(res http.ResponseWriter, req *http.Request) {
 	cookie, err := req.Cookie("session-fino")
 
 	useroni := User{}
-
-	templ.ExecuteTemplate(res, "tpl.gohtml", useroni)
 
 	//if no cookie
 	if err != nil {
@@ -114,16 +108,18 @@ func foo(res http.ResponseWriter, req *http.Request) {
 		rcvdage := splitstrings[2]
 		rcvdhmac := splitstrings[4]
 		codeCheck := makehmac(rcvdfname)
-		rcvdhmac = rcvdhmac + "failing  verification lol"
+		rcvdhmac = rcvdhmac
+		// rcvdhmac = rcvdhmac + "failing  verification lol"
 
 		if codeCheck != rcvdhmac {
 			log.Println("MISMATCHED UUID HMAC")
 			log.Println(rcvdhmac)
 			log.Println(codeCheck)
-			http.Redirect(res, req, "/failed/", 303)
+			http.Redirect(res, req, "/failed/", http.StatusMovedPermanently)
 		}
 		log.Println(rcvdfname + rcvdlname + rcvdage)
 
 	}
+	templ.ExecuteTemplate(res, "tpl.gohtml", useroni)
 
 }

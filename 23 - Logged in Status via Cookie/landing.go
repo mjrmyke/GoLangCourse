@@ -12,17 +12,19 @@ import (
 	// "text/template"
 )
 
+//User type
 type User struct {
 	FName    string
-	LName    string
 	Age      string
+	Uuid     *uuid.UUID
 	HMAC     string
-	uuid     *uuid.UUID
-	loggedin bool
+	loggedin string
 }
 
+//Useroni Declared as empty user
 var Useroni User
 
 func landing(res http.ResponseWriter, req *http.Request) {
 	templates.ExecuteTemplate(res, "landing.gohtml", Useroni)
+	Getcookie(res, req)
 }

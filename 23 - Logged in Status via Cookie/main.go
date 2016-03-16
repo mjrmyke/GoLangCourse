@@ -6,10 +6,12 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/nu7hatch/gouuid"
 	"io"
 	"log"
 	"net/http"
+	"strings"
+
+	"github.com/nu7hatch/gouuid"
 	// "strings"
 	"text/template"
 )
@@ -39,6 +41,33 @@ func Getcookie(res http.ResponseWriter, req *http.Request) *http.Cookie {
 			cook = givecookie(res, req, req.FormValue("Age"), req.FormValue("FName"), id, "True")
 			fmt.Println(req.FormValue("FName") + "Asdasd")
 			http.SetCookie(res, cook)
+
+			//Places new cookie data into user struct "Useroni"
+			var rcvduseroni string
+
+			usercookiedata := cook.Value
+			decodeduserdata, err := base64.URLEncoding.DecodeString(usercookiedata)
+			if err != nil {
+				log.Println("Error decoding base64", err)
+			}
+			err = json.Unmarshal(decodeduserdata, &rcvduseroni)
+			if err != nil {
+				fmt.Println("error unmarshalling: ", err)
+			}
+
+			splitstrings := strings.Split(rcvduseroni, "|")
+
+			Useroni.FName = splitstrings[0]
+			Useroni.Age = splitstrings[1]
+
+			parseduuid, err := uuid.ParseHex(splitstrings[2])
+			if err != nil {
+				fmt.Println("error parsing uuid from cookie: ", err)
+			}
+
+			Useroni.Uuid = parseduuid
+			Useroni.HMAC = splitstrings[3]
+			Useroni.Loggedin = splitstrings[4]
 		}
 	}
 

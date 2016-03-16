@@ -1,41 +1,25 @@
 package main
 
 import (
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	"github.com/nu7hatch/gouuid"
 	"log"
 	"net/http"
-	"strings"
+
 	// "text/template"
 )
 
 func userhome(res http.ResponseWriter, req *http.Request) {
-	cook := Getcookie(res, req)
-	var rcvduseroni string
-	usercookiedata := cook.Value
-	decodeduserdata, err := base64.URLEncoding.DecodeString(usercookiedata)
-	if err != nil {
-		log.Println("Error decoding base64", err)
-	}
-	err = json.Unmarshal(decodeduserdata, &rcvduseroni)
-	if err != nil {
-		fmt.Println("error unmarshalling: ", err)
-	}
-	splitstrings := strings.Split(rcvduseroni, "|")
 
-	Useroni.FName = splitstrings[0]
-	Useroni.Age = splitstrings[1]
-
-	parseduuid, err := uuid.ParseHex(splitstrings[2])
-	if err != nil {
-		fmt.Println("error parsing uuid from cookie: ", err)
-	}
-
-	Useroni.Uuid = parseduuid
-	Useroni.HMAC = splitstrings[3]
-	Useroni.Loggedin = splitstrings[4]
-
-	templates.ExecuteTemplate(res, "loggedin.gohtml", Useroni)
-}
+	_, error := req.Cookie("session-fino")
+	if error != nil || Useroni.Loggedin != "True" {
+		log.Println("Error detecting cookie in logged in page", error)
+		http.Redirect(res, req, "/failed/", 302)
+	} else {
+		value := req.URL.Query().Get("logout")
+		if value == "logout" {
+			http.Redirect(res, req, "/loggedout", 302)
+			Useroni.Loggedin = "False"
+			givecookie(res, req, Useroni.Age, Useroni.FName, Useroni.Uuid, "False")
+		}
+		templates.ExecuteTemplate(res, "loggedin.gohtml", Useroni)
+	} //end else
+} //end userhome

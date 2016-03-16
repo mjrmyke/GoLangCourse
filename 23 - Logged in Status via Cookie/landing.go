@@ -25,6 +25,7 @@ type User struct {
 var Useroni User
 
 func landing(res http.ResponseWriter, req *http.Request) {
-	templates.ExecuteTemplate(res, "landing.gohtml", Useroni)
 	Getcookie(res, req)
+	templates.ExecuteTemplate(res, "landing.gohtml", Useroni)
+
 }

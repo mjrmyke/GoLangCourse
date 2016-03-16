@@ -29,14 +29,18 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
+//Getcookie will get your cookies
 func Getcookie(res http.ResponseWriter, req *http.Request) *http.Cookie {
 	cook, error := req.Cookie("session-fino")
 	if error != nil {
 		fmt.Println("error: ", error)
-		id, _ := uuid.NewV4()
-		cook = givecookie(res, req, " ", " ", id, "")
+		if req.Method == "POST" {
+			id, _ := uuid.NewV4()
+			cook = givecookie(res, req, req.FormValue("age"), req.FormValue("FName"), id, "True")
+			fmt.Println(req.FormValue("FName") + "Asdasd")
+			http.SetCookie(res, cook)
+		}
 	}
-	http.SetCookie(res, cook)
 
 	return cook
 }
@@ -58,7 +62,7 @@ func givecookie(res http.ResponseWriter, req *http.Request, age string, name str
 	//create the cookie
 	cook = &http.Cookie{
 		Name:  "session-fino",
-		Value: b64,
+		Value: b64 + stringdata,
 		// Secure: true,
 		HttpOnly: true,
 	}

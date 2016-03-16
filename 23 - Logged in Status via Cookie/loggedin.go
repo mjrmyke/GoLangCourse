@@ -35,7 +35,7 @@ func userhome(res http.ResponseWriter, req *http.Request) {
 
 	Useroni.Uuid = parseduuid
 	Useroni.HMAC = splitstrings[3]
-	// Useroni.loggedin = splitstrings[4]
+	Useroni.Loggedin = splitstrings[4]
 
-	templates.Execute(res, "loggedin.gohtml")
+	templates.ExecuteTemplate(res, "loggedin.gohtml", Useroni)
 }

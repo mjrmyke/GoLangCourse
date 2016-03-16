@@ -6,16 +6,25 @@
 </head>
 <body>
 <h1>You are logged in!</h1>
+
+<br>
+<br>
+Hello {{.FName}}!
+<br>
+Age: {{.Age}}
+<br>
+HMAC: {{.HMAC}}
+<br>
+UUID: {{.Uuid}}
+<br>
+logged in: {{.Loggedin}}
+<br>
+
 <form>
   <input type="submit" name="logout" value="logout">
 </form>
 
 <br>
 <br>
-{{.FName}}<br>
-{{.LName}}<br>
-{{.Age}}
-
-
 </body>
 </html>

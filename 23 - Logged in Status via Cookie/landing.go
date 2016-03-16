@@ -18,7 +18,7 @@ type User struct {
 	Age      string
 	Uuid     *uuid.UUID
 	HMAC     string
-	loggedin string
+	Loggedin string
 }
 
 //Useroni Declared as empty user

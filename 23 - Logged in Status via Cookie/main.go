@@ -36,7 +36,7 @@ func Getcookie(res http.ResponseWriter, req *http.Request) *http.Cookie {
 		fmt.Println("error: ", error)
 		if req.Method == "POST" {
 			id, _ := uuid.NewV4()
-			cook = givecookie(res, req, req.FormValue("age"), req.FormValue("FName"), id, "True")
+			cook = givecookie(res, req, req.FormValue("Age"), req.FormValue("FName"), id, "True")
 			fmt.Println(req.FormValue("FName") + "Asdasd")
 			http.SetCookie(res, cook)
 		}
@@ -62,7 +62,7 @@ func givecookie(res http.ResponseWriter, req *http.Request, age string, name str
 	//create the cookie
 	cook = &http.Cookie{
 		Name:  "session-fino",
-		Value: b64 + stringdata,
+		Value: b64,
 		// Secure: true,
 		HttpOnly: true,
 	}

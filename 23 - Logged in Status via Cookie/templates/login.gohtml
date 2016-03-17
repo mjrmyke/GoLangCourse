@@ -5,24 +5,26 @@
     <title>Hiya</title>
 </head>
 <body>
-<h1>Hey {{.FName}}</h1>
+<h1>You should be logged in!</h1>
 
 <br>
 <br>
-You are logged in!
+Hello {{.FName}}!
+<br>
 Age: {{.Age}}
 <br>
 HMAC: {{.HMAC}}
 <br>
 UUID: {{.Uuid}}
-<form>
-  <input type="submit" name="logout" value="logout">
+<br>
+logged in: {{.Loggedin}}
+<br>
+
+<form><br>
+  <a href="/loggedin/"> Home Page </a><br>
 </form>
 
 <br>
 <br>
-
-
-
 </body>
 </html>

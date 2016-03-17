@@ -17,14 +17,21 @@ age:
 <input type="submit" value="create user and cookie">
 
 
-<h1>If you have an account</h1>
+<h1>If you are logged in</h1>
 <a href="/loggedin/">home page</a>
+<br>
 
+
+{{if .FName}}
+<h1>If you are logged out</h1>
+Hello {{.FName}}!<br>
+You are {{.Age}}
+<a href="/login/">login!</a>
+
+{{end}}
 </form>
 <br>
-<br>
-{{.FName}}<br>
-{{.Age}}
+
 
 
 </body>

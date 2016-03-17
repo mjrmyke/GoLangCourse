@@ -25,6 +25,7 @@ func init() {
 
 func main() {
 	http.HandleFunc("/", landing)
+	http.HandleFunc("/login/", login)
 	http.HandleFunc("/failed/", failedlogin)
 	http.HandleFunc("/loggedin/", userhome)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
@@ -39,7 +40,7 @@ func Getcookie(res http.ResponseWriter, req *http.Request) *http.Cookie {
 		if req.Method == "POST" {
 			id, _ := uuid.NewV4()
 			cook = givecookie(res, req, req.FormValue("Age"), req.FormValue("FName"), id, "True")
-			fmt.Println(req.FormValue("FName") + "Asdasd")
+			fmt.Println(req.FormValue("FName"))
 			http.SetCookie(res, cook)
 
 			//Places new cookie data into user struct "Useroni"

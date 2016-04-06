@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hiya</title>
+</head>
+<body>
+<h1>This is a landing page</h1>
+<form method = "POST">
+Username:
+<input type="text" name="FName">
+<br>
+
+age:
+<input type="text" name="Age"><br>
+<br>
+<input type="submit" value="create user and cookie">
+
+
+<h1>If you are logged in</h1>
+<a href="/loggedin/">home page</a>
+<br>
+
+
+{{if .FName}}
+<h1>If you are logged out</h1>
+Hello {{.FName}}!<br>
+You are {{.Age}}
+<a href="/login/">login!</a>
+
+{{end}}
+</form>
+<br>
+
+
+
+</body>
+</html>

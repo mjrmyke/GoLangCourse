@@ -20,7 +20,7 @@ const gcsBucket = "testenv-1273.appspot.com"
 
 func init() {
 	http.HandleFunc("/", handler)
-	http.HandleFunc("/golden", retriever)
+	http.HandleFunc("/getter", retriever)
 }
 
 func handler(res http.ResponseWriter, req *http.Request) {
@@ -78,7 +78,7 @@ func retriever(res http.ResponseWriter, req *http.Request) {
 	objectName := req.FormValue("object")
 	rdr, err := getFile(ctx, objectName)
 	if err != nil {
-		log.Errorf(ctx, "ERROR golden getFile: ", err)
+		log.Errorf(ctx, "ERROR retriever function in  getFile: ", err)
 		http.Error(res, "We were unable to get the file"+objectName+"\n"+err.Error(), http.StatusUnsupportedMediaType)
 		return
 	}
@@ -165,7 +165,7 @@ func putCookie(res http.ResponseWriter, req *http.Request, fname string) (map[st
 	}
 	b64 := base64.URLEncoding.EncodeToString(bs)
 
-	// FYI
+	// Cloud Storage requires context
 	ctx := appengine.NewContext(req)
 	log.Infof(ctx, "COOKIE JSON: %s", string(bs))
 

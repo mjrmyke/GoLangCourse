@@ -2,26 +2,27 @@ package mem
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/log"
 	"google.golang.org/appengine/memcache"
-	"net/http"
 )
 
-func storeMemc(m model, id string, req *http.Request) error {
+func storeMemc(m model, req *http.Request) error {
 	ctx := appengine.NewContext(req)
 	bs, err := json.Marshal(m)
 	if err != nil {
-		log.Errorf(ctx, "ERROR storeMemc json.Marshal: %s", err)
+		log.Errorf(ctx, "error storing due to json.Marshal: %s", err)
 		return err
 	}
 	item1 := memcache.Item{
-		Key:   id,
+		Key:   m.ID,
 		Value: bs,
 	}
 	err = memcache.Set(ctx, &item1)
 	if err != nil {
-		log.Errorf(ctx, "ERROR storeMemc memcache.Set: %s", err)
+		log.Errorf(ctx, "error storing due to memcache.Set: %s", err)
 		return err
 	}
 
@@ -40,13 +41,13 @@ func retrieveMemc(id string, req *http.Request) (model, error) {
 			return m, err
 		}
 		// put data in memcache
-		storeMemc(m, id, req)
+		storeMemc(m, req)
 		return m, nil
 	}
 	// unmarshal from JSON
 	err = json.Unmarshal(item.Value, &m)
 	if err != nil {
-		log.Errorf(ctx, "ERROR retrieveMemc unmarshal: %s", err)
+		log.Errorf(ctx, "error retrieving due to unmarshal: %s", err)
 		return m, err
 	}
 	return m, nil

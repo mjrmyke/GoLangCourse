@@ -3,11 +3,12 @@ package mem
 import (
 	"crypto/sha1"
 	"fmt"
-	"google.golang.org/appengine"
-	"google.golang.org/appengine/log"
 	"io"
 	"mime/multipart"
 	"net/http"
+
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/log"
 )
 
 func uploadPhoto(src multipart.File, id string, req *http.Request) error {
@@ -19,29 +20,27 @@ func uploadPhoto(src multipart.File, id string, req *http.Request) error {
 func addPhoto(fName string, id string, req *http.Request) error {
 	ctx := appengine.NewContext(req)
 
-	// DATASTORE
 	md, err := retrieveDstore(id, req)
 	if err != nil {
 		return err
 	}
 	md.Pictures = append(md.Pictures, fName)
-	err = storeDstore(md, id, req)
+	err = storeDstore(md, req)
 	if err != nil {
-		log.Errorf(ctx, "ERROR addPhoto storeDstore: %s", err)
+		log.Errorf(ctx, "error adding photos due to storedstore: %s", err)
 		return err
 	}
 
-	// MEMCACHE
 	var mc model
 	mc, err = retrieveMemc(id, req)
 	if err != nil {
-		log.Errorf(ctx, "ERROR addPhoto retrieveMemc: %s", err)
+		log.Errorf(ctx, "error retrieving memc when storing photo: %s", err)
 		return err
 	}
 	mc.Pictures = append(mc.Pictures, fName)
-	err = storeMemc(mc, id, req)
+	err = storeMemc(mc, req)
 	if err != nil {
-		log.Errorf(ctx, "ERROR addPhoto storeMemc: %s", err)
+		log.Errorf(ctx, "error storing memc while adding photo: %s", err)
 		return err
 	}
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="/index.css">
+
+<body>
+  <div id = "themainbits">
+    <br>test<br>
+  </div>
+
+<script>
+var backgroundimgs = ["a.jpg","b.jpg","c.jpg","d.jpg"];
+var quoterinos = ['"When you talk, you are only repeating what you already know. When you listen, you may learn something new - Dalai Lama"',
+                  '"I think the saddest people always try their hardest to make people happy. Because they know what it is like to feel absolutely worthless, and they do not want anyone else to feel like that - Robin Willaims"',
+                  '"The day the child realized that all adults are imperfect, he bcomes an adolescent; the day he forgives them, he becomes an adult; the day he forgives himself, he becomes wise - Alden Nowlan"',
+                  '"There is nothing noble in being superior to your fellow man; true nobility is being superior to your former self - Ernest Hemingway"']
+
+//selects 1st body
+var body = document.getElementsByTagName('body')[0];
+
+//manually change image first time
+body.style.backgroundImage = 'url(a.jpg)';
+
+
+window.setInterval(function(){
+  var imgnum = Math.floor((Math.random()*4));
+  var quotenum = Math.floor((Math.random()*4));
+  var imgsel = backgroundimgs[imgnum];
+  var quotsel = quoterinos[quotenum];
+  document.body.style.backgroundImage = "url('"+imgsel+"')";
+  document.getElementById("themainbits").innerHTML = quotsel;
+},3000);
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <div id = "themainbits">
+    <br>
+  </div>
+
+<script>
+//select div
+var element = document.querySelector('#themainbits');
+//create string array of names
+var slice = ['jimbo','kimbo','othername','otherothername'];
+//create new div
+var newdiv = document.createElement("div1");
+//for each item, create a list object, give it one of the names from slice, then append it to the list
+for (var i = 0; i < slice.length; i++){
+  var newlisting = document.createElement('li');
+  newlisting.innerText = slice[i];
+  newdiv.appendChild(newlisting);
+}
+
+//append new div to page
+element.appendChild(newdiv);
+
+
+
+
+</script>
+
+
+
+</body>
+</html>
